@@ -1,0 +1,34 @@
+use schooldb;
+
+-- 1)
+
+create table events ( id int primary key, event_name varchar(100), event_date date);
+
+desc events;
+
+-- 2)
+
+insert into events ( id, event_name, event_date ) 
+		values(1, 'Sports Day', '2026-02-14'),
+              (2, 'Annul Day', '2026-08-07'),
+              (3, 'Tech Fest', '2026-10-15'),
+              (4, 'Cultural Fest', '2026-12-05'),
+              (5, 'Workshop', '2026-01-23');
+
+select * from events;
+
+-- 3)
+
+select now();
+
+-- 4)
+
+select event_name, date_format(event_date, '2026-01-23') as formated_date from events;
+
+-- 5) 
+
+select event_name, year(event_date) as year, month(event_date) as month from events;
+
+-- 6)
+
+select concat(event_name, ' - ' , event_date) as event_details from events;
