@@ -1,0 +1,100 @@
+create database customerDB;
+
+use customerdb;
+
+-- 1)
+
+create table customers (customer_id INT PRIMARY KEY, customer_name VARCHAR(50), city VARCHAR(50));
+
+create table orders ( order_id INT PRIMARY KEY, customer_id INT, product_name VARCHAR(50), amount DECIMAL(10,2),
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id));
+    
+-- 2)
+
+insert into customers ( customer_id, customer_name, city) 
+			values (1, 'Ajith Kumar', 'Hydrabad'),
+                   (2, 'Vikram', 'Chennai'),
+                   (3, 'Dhanush', 'Mumbai'),
+                   (4, 'Priya', 'Delhi'),
+                   (5, 'Swetha', 'Kerla');
+                   
+insert into orders ( order_id, customer_id, Product_name, amount) 
+			values (101, 1, 'Laptop', 25000.00),
+                   (102, 2, 'Mobile', 15000.00),
+                   (103, 3, 'Headphones', 2500.00),
+                   (104, 4, 'Monitor', 10000.00),
+                   (105, 5, 'Keyboard', 8000.00);
+                   
+-- 3)
+
+select c.customer_name, o.order_id, o.product_name, o.amount from customers c inner join orders o on c.customer_id = o.customer_id;
+
+-- 4)
+
+select c.customer_name, o.order_id, o.product_name from customers c left join orders o on c.customer_id = o.customer_id;
+
+5) Normalize a table with repeating groups into 2NF ? 
+
+Unnormalized Table (UNF)
+OrderID	  CustomerName	  Products
+101	  Ajith kumar	  Laptop, Mouse
+102	  Vikram  	  Mobile, Charger
+
+Problem: Multiple products are stored in a single column (repeating group).
+
+First Normal Form (1NF)
+OrderID	  CustomerName	        Product
+101	  Ajith Kumar	        Laptop
+101	  Ajith Kumar	        Mouse
+102	  Vikram	        Mobile
+102	  Vikram	        Charger
+Second Normal Form (2NF)
+
+Split into two tables:
+
+Orders
+
+OrderID  	CustomerName
+101	          Ajith Kumar
+102	          Vikram
+
+OrderDetails
+
+OrderID  	Product
+101	        Laptop
+101	        Mouse
+102	        Mobile
+102	        Charger
+
+Now all non-key attributes depend on the whole primary key.
+
+
+6) Show an example of 3NF using sample data ?
+
+
+Table Not in 3NF
+StudentID	StudentName	DeptID	  DeptName
+1	         Ajith Kumar	  D01	     CSE
+2	         Vikram	          D02	     ECE
+3	         Dhanush	  D01	     CSE
+
+Problem:
+
+DeptName depends on DeptID, not directly on StudentID.
+This is a transitive dependency.
+Convert to 3NF
+
+Students Table
+
+StudentID	StudentName	DeptID
+1	        Ajith Kumar	D01
+2	        Vikram	        D02
+3	        Dhanish 	D01
+
+Departments Table
+
+DeptID	DeptName
+D01	CSE
+D02	ECE
+
+
