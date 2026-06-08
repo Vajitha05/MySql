@@ -1,0 +1,29 @@
+-- 1)
+use employees;
+
+select * from employees where salary > (select avg(salary) from employees);
+
+-- 2)
+
+use company_db;
+
+select * from product where price > (select min(amount) from order1);
+
+-- 3)
+
+select * from customer where customer_name in (select customer_name from order1);
+
+-- 4)
+
+select customer_name, (select count(*) from order1 o where o.customer_name = c.customer_name) as order_count from customer c;
+
+-- 5)
+use employees;
+
+select * from employees e1 where salary = (select max(salary) from employees e2 where e1.department = e2.department);
+
+-- 6)
+
+use company_db;
+
+select exists (select * from product where product_name = 'Laptop') as product_exists; 	
