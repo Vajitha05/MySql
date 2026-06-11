@@ -1,0 +1,35 @@
+use employees;
+
+-- 1)
+
+select employee_id, employee_name, department_id, salary from employees1 e where salary > (
+		select avg(salary) from employees1 where department_id = e.department_id );
+        
+-- 2)
+
+select customer_id, customer_name from customers where 
+		customer_id in ( select customer_id from orders1 group by customer_id having count(order_id) > 2 );        
+        
+-- 3)
+
+select product_id, product_name, price from products1 where price = (select max(price) from products1);
+
+-- 4)
+
+select customer_id,(select sum(order_amount) from orders1 o 
+			where o.customer_id = c.customer_id) as total_order_value from customers c;        
+            
+-- 5)
+
+select employee_id, employee_name, salary, manager_id from employees1 e
+			where salary > (select salary from employees1 m where m.employee_id = e.manager_id);
+
+-- 6)
+
+select product_id, product_name from products1 p
+		where exists (select 1 from orders1 o where o.product_id = p.product_id);
+
+
+
+            
+            
